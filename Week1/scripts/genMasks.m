@@ -4,25 +4,19 @@
 % This is an example code for collecting ball sample colors using roipoly
 close all
 
-imagepath = './train';
-maskpath = './mask';
+imagepath = strcat(cd(cd('..')),'/train');
+maskpath = strcat(cd(cd('..')),'/mask');
 Samples = [];
 for k=1:15
     % Load image
     I = imread(sprintf('%s/%03d.png',imagepath,k));
-    
-    % You may consider other color space than RGB
+    figure(1),imshow(I);
     R = I(:,:,1);
     G = I(:,:,2);
     B = I(:,:,3);
-    
-    % Collect samples 
-    disp('');
-    disp('INTRUCTION: Click along the boundary of the ball. Double-click when you get back to the initial point.')
-    disp('INTRUCTION: You can maximize the window size of the figure for precise clicks.')
-    figure(1), 
-    mask = roipoly(I); 
+    mask = imread(sprintf('%s/%03d.png',maskpath,k));
     figure(2), imshow(mask); title('Mask'),imwrite(mask,sprintf('%s/%03d.png',maskpath,k))
+
     sample_ind = find(mask > 0);
     
     R = R(sample_ind);
