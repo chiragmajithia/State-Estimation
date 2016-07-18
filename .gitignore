@@ -1,5 +1,4 @@
 #Folders
-mask
 
 #Backup / Autosaves
-.m~
+*.m~
