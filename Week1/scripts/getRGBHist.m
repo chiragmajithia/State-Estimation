@@ -1,14 +1,13 @@
-function [R_hist,G_hist,B_hist] = getRGBHist()
+function [R_sample,G_sample,B_sample] = getRGBHist()
     imagepath = strcat(cd(cd('..')),'/train');
     maskpath = strcat(cd(cd('..')),'/mask');
     N = 15;
 
-    I_rgb = cell(1,N);
-    mask = cell(1,N);
-
-    R_hist = cell(1,N);
-    G_hist = cell(1,N);
-
+    I_rgb = cell(N,1);
+    mask = cell(N,1);
+    R_sample = [];
+    G_sample = [];
+    B_sample = [];
     for k=1:N
         I_rgb{k}=  imread(sprintf('%s/%03d.png',imagepath,k));
         mask{k} = uint8(imread(sprintf('%s/%03d.png',maskpath,k)));
@@ -22,12 +21,16 @@ function [R_hist,G_hist,B_hist] = getRGBHist()
         R = I(:,:,1);
         G = I(:,:,2);
         B = I(:,:,3);
-        R_hist{k} = imhist(R(mask{k}>0));
-        G_hist{k} = imhist(G(mask{k}>0));
-        B_hist{k} = imhist(B(mask{k}>0));    
-        subplot(2,3,4),imhist(R(mask{k}>0));
-        subplot(2,3,5),imhist(G(mask{k}>0));
-        subplot(2,3,6),imhist(B(mask{k}>0));
+        indx = mask{k}>0;
+        R_sample = [R_sample;R(indx)];
+        G_sample = [G_sample;G(indx)];
+        B_sample = [B_sample;B(indx)];   
+        subplot(2,3,4),imhist(R(indx));
+        subplot(2,3,5),imhist(G(indx));
+        subplot(2,3,6),imhist(B(indx));
         pause(0.5);
     end
+
+    close all;
+    figure(1),subplot(1,3,1),bar(histc(R_sample,[0:255])),subplot(1,3,2),bar(histc(G_sample,[0:255])),subplot(1,3,3),bar(histc(B,[0:255]));
 end

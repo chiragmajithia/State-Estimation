@@ -2,3 +2,6 @@
 
 #Backup / Autosaves
 *.m~
+
+#Mat files
+*.mat

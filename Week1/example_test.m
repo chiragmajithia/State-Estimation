@@ -12,7 +12,7 @@ for k=1:19
     % Implement your own detectBall function
     [segI, loc] = detectBall(I);
     
-    figure, imshow(segI); hold on; 
+    figure(1), imshow(segI); hold on; 
     plot(loc(1), loc(2), '+b','MarkerSize',7); 
     
     disp('Press any key to continue. (Ctrl+c to exit)')
